@@ -577,7 +577,7 @@ int main()
 	// p�niej mo�na odtworzy� kolejno�� ---> znale�� najwi�kszy na li�cie i wiesz, �e tyle ich b�dzie, znajdujesz po koleji pozycje od 1 do tego maxa
 	// niech iteruje w k�ko po p�tli puki nie dojdzie do ostatniego
 
-	int size = 10;
+	int size = 1000;
 	int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
 	int window = 5;
 
