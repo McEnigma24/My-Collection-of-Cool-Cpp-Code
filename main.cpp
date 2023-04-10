@@ -34,11 +34,16 @@ int main()
 {
 #ifdef OPERATIONS
 	// cout << "siema" << endl;
+	// cout << "nowy push" << endl;
 #endif
 
 	cout << "Hello world!" << endl << endl;
 	srand((unsigned int)time(NULL));
 	Time_Scope time("main", 3, 0);
+
+	// to jest easy
+
+	// jebać smoka skurwysyna
 
 	// {} do chowania tego co nie potrzebne na teraz
 	{
