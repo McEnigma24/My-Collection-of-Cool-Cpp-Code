@@ -33,7 +33,7 @@ using namespace std;
 int main()
 {
 #ifdef OPERATIONS
-	//cout << "siema" << endl;
+	cout << "siema" << endl;
 #endif
 
 	cout << "Hello world!" << endl << endl;
@@ -166,7 +166,7 @@ int main()
 		{
 			przykladowy = new List_Multivalue<string, int>;
 			for (int i = 0; i < 100; i++) przykladowy->Add_Back_Constructor("czesc", random, 26);
-			delete przykladowy; // w destruktorze j¹ usuwane wszystkie linked objecty
+			delete przykladowy; // w destruktorze jï¿½ usuwane wszystkie linked objecty
 		}
 
 		*/
@@ -304,7 +304,7 @@ int main()
 		cout << "after sort" << endl;
 		dy.Show_All();
 		*/
-		// Word Cross - teraz bez ci¹g³ej alokacji i dealokacji
+		// Word Cross - teraz bez ciï¿½gï¿½ej alokacji i dealokacji
 		/*
 		Word_Cross w;
 		Matrix<char> result;
@@ -356,7 +356,7 @@ int main()
 		obj.Sort();
 		cout << obj << endl;
 		*/
-		// Dzia³aj¹ce Sudoku
+		// Dziaï¿½ajï¿½ce Sudoku
 		/*
 		Sudoku obj;	
 
@@ -371,7 +371,7 @@ int main()
 			system("cls");
 		}
 		*/
-		// sprawdzanie parsowania dla Stringa - testowanie limitów 
+		// sprawdzanie parsowania dla Stringa - testowanie limitï¿½w 
 		/*
 		Random_Value<String> s;
 		String range = "-12345";
@@ -398,7 +398,7 @@ int main()
 		}
 		*/
 		// Bool_tab //
-		// 16 bitów do dyspozycji	
+		// 16 bitï¿½w do dyspozycji	
 		/*
 		unsigned short int t = 1;
 		t <<= 15; 
@@ -445,7 +445,7 @@ int main()
 		*/
 	}
 
-	// String 	  // to z wycinaniec jakiegoœ patternu i usuwaniem konkretnych liter
+	// String 	  // to z wycinaniec jakiegoï¿½ patternu i usuwaniem konkretnych liter
 	/*for (int i = 0; i < 10000000000000; i++)
 	{
 		String tab = "Test";
@@ -481,7 +481,7 @@ int main()
 	}
 	cout << "koniec duzego" << endl;
 	*/
-	// Zmiana z Stringa na liczê binarn¹
+	// Zmiana z Stringa na liczï¿½ binarnï¿½
 	/*
 	Number_Bases obj;
 
@@ -527,7 +527,7 @@ int main()
 	cout << u_biggest << endl;
 	cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u_biggest) << endl;
 	*/
-	// Test Matrix do uk³adu wspó³rzenych
+	// Test Matrix do ukï¿½adu wspï¿½rzenych
 	/*
 	Matrix<int> obj(25, 25);
 	obj.Initiate_value(0);
@@ -536,7 +536,7 @@ int main()
 	obj.Show_nothing_if_zero();
 	//obj.Show();
 	*/
-	// Ró¿nicze w zapisie liczb w pamiêci ---> wy³uskowanie z ró¿nych pointerów --- Ilostracja ró¿nych prymitywnych typów danych
+	// Rï¿½nicze w zapisie liczb w pamiï¿½ci ---> wyï¿½uskowanie z rï¿½nych pointerï¿½w --- Ilostracja rï¿½nych prymitywnych typï¿½w danych
 	/*
 	int i = 24;
 	void* pointer = &i;
@@ -557,11 +557,11 @@ int main()
 	*/
 
 
-	// Mo¿e to pole name do klas, ¿eby automatycznie wyœwietla³o nazwê
-	// ale jeœli u¿. nie poda nazwy to te¿ jest giet	
+	// Moï¿½e to pole name do klas, ï¿½eby automatycznie wyï¿½wietlaï¿½o nazwï¿½
+	// ale jeï¿½li uï¿½. nie poda nazwy to teï¿½ jest giet	
 
 	
-	// Permutacje z powtórzeniami
+	// Permutacje z powtï¿½rzeniami
 	/*
 	Interesting_Operations inte;
 
@@ -572,10 +572,10 @@ int main()
 	inte.Permutations_by_Recursion_Hub(tab, size, window);
 	*/
 
-	// to samo ale na przyk³ad z mo¿liwoœci¹ z³apania kolejnoœci
-	// zamiast tylko 1, niech ka¿dy kolejny daje o jeden wiêkszy ni¿ ostatni najwiêkszy w tablicy (bo ca³a reszta to 0)
-	// póŸniej mo¿na odtworzyæ kolejnoœæ ---> znaleŸæ najwiêkszy na liœcie i wiesz, ¿e tyle ich bêdzie, znajdujesz po koleji pozycje od 1 do tego maxa
-	// niech iteruje w kó³ko po pêtli puki nie dojdzie do ostatniego
+	// to samo ale na przykï¿½ad z moï¿½liwoï¿½ciï¿½ zï¿½apania kolejnoï¿½ci
+	// zamiast tylko 1, niech kaï¿½dy kolejny daje o jeden wiï¿½kszy niï¿½ ostatni najwiï¿½kszy w tablicy (bo caï¿½a reszta to 0)
+	// pï¿½niej moï¿½na odtworzyï¿½ kolejnoï¿½ï¿½ ---> znaleï¿½ï¿½ najwiï¿½kszy na liï¿½cie i wiesz, ï¿½e tyle ich bï¿½dzie, znajdujesz po koleji pozycje od 1 do tego maxa
+	// niech iteruje w kï¿½ko po pï¿½tli puki nie dojdzie do ostatniego
 
 	int size = 10;
 	int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
