@@ -33,7 +33,7 @@ using namespace std;
 int main()
 {
 #ifdef OPERATIONS
-	cout << "siema" << endl;
+	// cout << "siema" << endl;
 #endif
 
 	cout << "Hello world!" << endl << endl;
