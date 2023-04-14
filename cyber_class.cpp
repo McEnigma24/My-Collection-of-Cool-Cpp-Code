@@ -15,36 +15,69 @@
 // Jeszcze żeby działało na obietkach const to trzeba mieć też funkcje i operatory const - Cherno Arrow Operator
 
 	// String //
-
+		
 	String::String()
 		:size(0), tab(nullptr), for_execptions('e')
 	{
 	}
 	String::String(const char* input)
-		{
-			size = strlen(input);
-			tab = new char[size + 1];
+	{
+		LOG("String Construktor - const char* input");
+		size = strlen(input);
+		tab = new char[size + 1];
 
-			for (int i = 0; i < size; i++) tab[i] = input[i];
-			tab[size] = '\0';
-			for_execptions = 'e';
-		}
+		for (int i = 0; i < size; i++) tab[i] = input[i];
+		tab[size] = '\0';
+		for_execptions = 'e';
+	}
 	String::~String()
 		{
-			if (tab != nullptr) delete[] tab;
+#ifdef DEBUG
+		cout << "Deleting String ? ... ";
+#endif 
+
+			if (tab != nullptr)
+			{
+				delete[] tab;
+#ifdef DEBUG
+				cout << "yes" << endl;
+#endif 
+			}
+			else
+			{
+#ifdef DEBUG
+				cout << "no" << endl;
+#endif
+			}
 		}
 	String::String(const String& other)
 			: size(other.size)
 		{
+			LOG("String Copy Constructor - const String& other");
 			tab = new char[other.size + 1];
 			for (int i = 0; i < other.size; i++) tab[i] = other.tab[i];
 			tab[other.size] = '\0';
 			for_execptions = 'e';
 		}
+
+	// Move Constructior
+	String::String(String&& other) noexcept
+	{
+		LOG("String Move Semantics - String&& other --- taking rvalue");
+		tab = other.Get_Tab();
+		size = other.Get_Size();
+		for_execptions = 'e';
+
+		// Kluczowe aspekty
+		other.Get_Tab() = nullptr;
+		other.Get_Size() = 0;
+	}
+
 	// deletes previous object
 	String& String::operator=(const String& other)
 	{
-		if (other.size < 0 || other.tab == nullptr) return *this;
+		LOG("String = operator - const String& other");
+		if (other.size < 0 || other.tab == nullptr) return *this;		
 		else if (tab != nullptr && size > 0) // mamy już jakąś tablicę
 		{
 			size = other.size;
@@ -73,11 +106,11 @@
 		(*this) = n.Decimal(input);	
 		return *this;
 	}
-	int String::Get_Size()
+	int& String::Get_Size()
 	{
 		return size;
 	}
-	char* String::Get_Tab()
+	char*& String::Get_Tab()
 	{
 		return tab;
 	}
@@ -367,6 +400,34 @@
 			}
 			else return false;
 		}
+
+	String String::Password_Generetor(String allowed_characters, int how_long)
+	{
+		if (allowed_characters.Is_Empty()) return "";
+
+		int size = allowed_characters.Get_Size();		
+
+		String result;
+		for (int i = 0; i < how_long; i++)
+		{			
+			result += allowed_characters[rand() % size];
+		}
+
+		return result;
+	}
+	String String::Password_Generetor_basic_set(int how_long)
+	{
+		String allowed_characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+		int size = allowed_characters.Get_Size();
+
+		String result;
+		for (int i = 0; i < how_long; i++)
+		{
+			result += allowed_characters[rand() % size];
+		}
+
+		return result;
+	}
 
 	// sort by number	
 	/*
@@ -2351,13 +2412,13 @@
 
 // Interesting Operations //
 
-	int Interesting_Operations::count_ones(int*& tab, int& size)
+	int Interesting_Recursion::count_ones(int*& tab, int& size)
 	{
 		int count = 0;
 		for (int i = 0; i < size; i++) if (tab[i] == 1) count++;
 		return count;
 	}
-	int Interesting_Operations::max_of_tab(int*& tab, int& size)
+	int Interesting_Recursion::max_of_tab(int*& tab, int& size)
 	{
 		if (tab == nullptr) return 0;
 
@@ -2400,7 +2461,7 @@
 
 
 	// wszystkie kombinacje
-	void Interesting_Operations::BODY_Permutations(int*& tab, int& size, int*& available_tab, int& limit, ofstream& FILE)
+	void Interesting_Recursion::BODY_Permutations(int*& tab, int& size, int*& available_tab, int& limit, ofstream& FILE)
 	{
 		if (max_of_tab(available_tab, size) != limit)
 		{
@@ -2425,7 +2486,7 @@
 			FILE << endl;
 		}
 	}
-	void Interesting_Operations::HUB_Permutations(int*& tab, int& size, int& window_size)
+	void Interesting_Recursion::HUB_Permutations(int*& tab, int& size, int& window_size)
 	{
 		const char* path = "_permutations/permutations.txt";
 		int* available_tab = new int[size]; for (int i = 0; i < size; i++) available_tab[i] = 0;
@@ -2436,13 +2497,13 @@
 
 		Txt_Operations txt;
 		txt.Delete_empty_spaces(path);
-		txt.Read_txt(path);
+		// txt.Read_txt(path);
 
 		// if(deleting_permutation_file) remove(path);
 	}
 	
 	// wszystkie kombinacje bez powtórzeń
-	void Interesting_Operations::BODY_Permutations_no_repeat(int*& tab, int& size, int*& available_tab, int& recursion_limit, int starting_index, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE), void(*at_the_end)(int sum, ofstream& FILE), ofstream& FILE)
+	void Interesting_Recursion::BODY_Permutations_no_repeat(int*& tab, int& size, int*& available_tab, int& recursion_limit, int starting_index, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE), void(*at_the_end)(int sum, ofstream& FILE), ofstream& FILE)
 	{
 		if (max_of_tab(available_tab, size) != recursion_limit)
 		{
@@ -2494,7 +2555,7 @@
 			at_the_end(sum, FILE);
 		}
 	}
-	void Interesting_Operations::HUB_Permutations_no_repeat(int*& tab, int& size, int how_many_in_a_group, ofstream& FILE, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE), void(*at_the_end)(int sum, ofstream& FILE))
+	void Interesting_Recursion::HUB_Permutations_no_repeat(int*& tab, int& size, int how_many_in_a_group, ofstream& FILE, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE), void(*at_the_end)(int sum, ofstream& FILE))
 	{
 		int* available_tab = new int[size]; for (int i = 0; i < size; i++) available_tab[i] = 0;
 
@@ -2504,7 +2565,7 @@
 	}
 
 	// wszystkie kombinacje bez powtórzeń sumujące się do określonej liczby
-	void Interesting_Operations::BODY_Permutations_no_repeat_sum(int*& tab, int& size, int*& available_tab, int sum_looking_for, int starting_index, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE), ofstream& FILE)
+	void Interesting_Recursion::BODY_Permutations_no_repeat_sum(int*& tab, int& size, int*& available_tab, int sum_looking_for, int starting_index, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE), ofstream& FILE)
 	{
 		if (sum_looking_for != 0)
 		{
@@ -2548,7 +2609,7 @@
 			}
 		}
 	}
-	void Interesting_Operations::HUB_Permutations_no_repeat_sum(int*& tab, int& size, int sum_looking_for, ofstream& FILE, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE))
+	void Interesting_Recursion::HUB_Permutations_no_repeat_sum(int*& tab, int& size, int sum_looking_for, ofstream& FILE, void(*normal)(int*& tab, int& index, ofstream& FILE), void(*last)(int*& tab, int& index, ofstream& FILE))
 	{
 		int* available_tab = new int[size]; for (int i = 0; i < size; i++) available_tab[i] = 0;
 
@@ -2560,7 +2621,7 @@
 
 
 	// example
-	void Interesting_Operations::basic_call_no_repeat_sum(int* tab, int size, int sum_looking_for)
+	void Interesting_Recursion::basic_call_no_repeat_sum(int* tab, int size, int sum_looking_for)
 	{
 		if (tab == nullptr) return;
 		// int size = 6;
@@ -2579,7 +2640,7 @@
 		txt.Delete_empty_spaces(path);
 		FILE.close();
 	}
-	void Interesting_Operations::basic_call_no_repeat_showing_sum(int* tab, int size)
+	void Interesting_Recursion::basic_call_no_repeat_showing_sum(int* tab, int size)
 	{
 		if (tab == nullptr) return;
 		//int size = 6;
@@ -2603,7 +2664,7 @@
 			window++;
 		}
 	}
-	void Interesting_Operations::basic_call_no_repeat(int* tab, int size, int how_many_number_in_group)
+	void Interesting_Recursion::basic_call_no_repeat(int* tab, int size, int how_many_number_in_group)
 	{
 		if (tab == nullptr) return;
 		//int size = 6;
@@ -2622,7 +2683,7 @@
 		txt.Delete_empty_spaces(path);
 		FILE.close();		
 	}
-	void Interesting_Operations::basic_call_repeat(int* tab, int size, int how_many_number_in_group)
+	void Interesting_Recursion::basic_call_repeat(int* tab, int size, int how_many_number_in_group)
 	{
 		if (tab == nullptr) return;
 		//int size = 6;

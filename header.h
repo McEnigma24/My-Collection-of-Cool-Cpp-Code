@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include "windows.h"
+#include <thread>
 
 using namespace  std;
 
@@ -43,7 +44,13 @@ class Search_Patterns;
 class Number_Bases;
 class Stats;
 class Sudoku;
-class Interesting_Operations;
+class Interesting_Recursion;
+
+#ifdef DEBUG
+#define LOG(x) cout << x << endl
+#else
+#define LOG(x)
+#endif
 
 
 
@@ -177,10 +184,12 @@ public:
 	String(const char* input);
 	~String();
 	String(const String& other);
+	String(String&& other) noexcept;
+
 	String& operator=(const String& other);
 	String& To_String(long long input);
-	int Get_Size();
-	char* Get_Tab();
+	int& Get_Size();
+	char*& Get_Tab();
 
 	void Print();
 	void Reverse();
@@ -204,6 +213,9 @@ public:
 	bool operator>=(const String& other);
 	bool operator<=(const String& other);
 
+	String Password_Generetor(String allowed_characters, int how_long);
+	String Password_Generetor_basic_set(int how_long);
+
 	// sort strings of numbers
 	short int Which_number_is_bigger(String one, String two);
 
@@ -211,7 +223,7 @@ public:
 	bool operator^(const char& key);
 
 	
-	// -= usuwa wszystkie litery ze Stringa
+	// -= usuwa wszystkie litery ze String
 	String& operator-=(const char input);
 
 	String& cut_from_string();	
@@ -228,6 +240,7 @@ public:
 	// Przepatruje tablice char i patrzy czy wystêpuj¹ce tam znaki to tylko liczby i -, jak co kolwiek innego to mówi, ¿e nie mo¿e zmieniæ
 	bool Try_Parse_to_Int();
 
+
 private:
 
 	bool Contains_for_Try_Parse(const char* all_numbers, const int& size, const char& this_char);
@@ -237,6 +250,49 @@ private:
 
 public:
 	friend std::ostream& operator<<(std::ostream& os, const String& obj);
+};
+
+// Test for Move Semantics //
+class Entity_Bad_Allocation
+{
+	String name;
+public:
+	Entity_Bad_Allocation(const String& n)
+		:name(n)
+	{
+		cout << "Created Entity" << endl;
+	}
+
+	~Entity_Bad_Allocation()
+	{
+		cout << "Deleting Entity_Bad_Allocation..." << endl;
+	}
+
+	void Show()
+	{
+		cout << name << endl << endl;
+	}
+};
+
+class Entity_with_Move
+{
+	String name;
+public:
+	Entity_with_Move(String&& n)
+		:name((String&&)n)
+	{
+		cout << "Created Entity" << endl;
+	}
+
+	~Entity_with_Move()
+	{
+		cout << "Deleting Entity_with_Move..." << endl;
+	}
+
+	void Show()
+	{
+		cout << name << endl << endl;
+	}
 };
 
 
@@ -332,7 +388,7 @@ public:
 		{
 			file_in >> line;
 
-			for (int i = 0; i < line.length(); i++)
+			for (int i = 0; i < (int)line.length(); i++)
 			{
 				t = line[i];
 				if (t == old) t = better;
@@ -925,6 +981,11 @@ class List
 				else obj = nullptr;
 			}
 		}
+		list* Iterator_better()
+		{
+			if (this->pnext != nullptr) return this->pnext;
+			else return nullptr;
+		}
 	};
 
 	list* phead;
@@ -1289,6 +1350,25 @@ public:
 			this->Delete_Value(tmp);
 			return tmp;
 		}
+	}
+
+	T* to_array()
+	{
+		list* iterator = phead;
+
+		int size = Count(); if (size == 0) return nullptr;
+		T* tab = new T[Count()];
+
+		int i = 0;
+		while (iterator)
+		{
+			tab[i] = iterator->value;
+
+			iterator = iterator->Iterator_better();
+			i++;
+		}
+		
+		return tab;
 	}
 };
 
@@ -2291,6 +2371,34 @@ string Array_Functions<string>::Biggest_value_from_both(const string* tab_a, con
 }
 */
 
+// Simple Array Simplifications //
+template<typename T>
+class Array_Optimization
+{
+public:
+	
+	// dowolny odstêp miêdzy liczbami (spacja, enter)
+	T* From_txt_to_array(string path, int& size)
+	{
+		string right_path = "_load_array_from_txt/" + path;
+		ifstream FILE(right_path.c_str());
+
+		T recever;
+		List<T> list;
+
+		while (!FILE.eof())
+		{
+			FILE >> recever;
+			list.Add_Back(recever);
+		}
+
+		size = list.Get_list_size();
+
+		return list.to_array();
+	}
+
+};
+
 ///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
@@ -2702,9 +2810,11 @@ public:
 };
 
 
+
+
 ////////////////////////////////////////////
-//Operations//
-class Interesting_Operations
+//Interesting Recursion//
+class Interesting_Recursion
 {
 private:
 	int count_ones(int*& tab, int& size);
@@ -2723,6 +2833,23 @@ public:
 	void basic_call_no_repeat_showing_sum(int* tab, int size);
 	void basic_call_no_repeat(int* tab, int size, int how_many_number_in_group);
 	void basic_call_repeat(int* tab, int size, int how_many_number_in_group);
+};
+
+
+////////////////////////////////////////////
+//Interesting Operations//
+class Interesting_Operations
+{
+public:
+	void Fractions_from_0_to_1(int number_of_fractions)
+	{
+		cout << ((double)(rand() % (number_of_fractions + 1)) / (double)(number_of_fractions + 1)) << endl;
+	}
+
+	void Fractions_from_0_to_user_number(int number_of_fractions, int user_number)
+	{
+		cout << ((double)(rand() % (number_of_fractions + 1)) / (double)(rand() % (user_number)+1)) << endl;
+	}
 };
 
 
@@ -2843,6 +2970,257 @@ public:
 		return bool_tab[i][j];
 	}
 };
+
+
+////////////////////////////////////////////
+//Daily Coding Problems//
+class Coding_Problems
+{
+public:
+	 
+	// biggest non-adjacent sum
+	class Problem_9
+	{
+	public:
+
+		void biggest_non_adjacent_sum(int* tab, int size)
+		{
+			int biggest = 0;
+			int tmp = 0;
+
+			for (int big_iteration = 0; big_iteration < size; big_iteration++)
+			{
+				for (int j = big_iteration + 2; j < size; j++)
+				{
+					tmp = tab[big_iteration];
+					tmp += tab[j];
+
+					if (big_iteration == 0 || biggest < tmp) biggest = tmp;
+				}
+			}
+
+			for (int i = 0; i < size; i++) cout << tab[i] << " ";
+			cout << endl << "najwieksza suma dla tablicy to: " << tmp << endl;
+		}
+	};
+
+	// very simple job scheduler
+	class Problem_10
+	{
+	public:
+
+		void Job_Scheduler(void (*ptr)(), int n)
+		{
+			Sleep(n);
+			ptr();
+		}
+	};
+
+	// Monte Carlo - pi approximation
+	class Problem_14
+	{
+	public:
+
+		struct Point_int
+		{
+			int x;
+			int y;
+		};
+		struct Point_double
+		{
+			double x;
+			double y;
+		};
+
+		double Length(Point_double p)
+		{
+			return sqrt((p.x * p.x) + (p.y * p.y));
+		}
+		double Length(Point_int p)
+		{
+			return sqrt((((double)p.x * (double)p.x) + ((double)p.y * (double)p.y)));
+		}
+
+		Point_double Random_Point_in_square(double r)
+		{			
+			Point_double result;
+			result.x = (rand() % 2 * r) - r;
+			result.y = (rand() % 2 * r) - r;
+
+			return result;
+		}
+
+		Point_int Random_point_in_bounds(int width, int height)
+		{
+			Point_int result;
+
+			result.x = rand() % (width + 1);
+			result.y = rand() % (height + 1);
+
+			return result;
+		}
+
+		void Main_thing(int number_of_iterations, int r)
+		{
+			double square = 0;
+			double circle = 0;
+			double pi = 0;
+
+			for (int i = 0; i < number_of_iterations; i++)
+			{
+				Point_int random;
+				{
+					random.x = (rand() % (2 * r + 1)) - r;
+					random.y = (rand() % (2 * r + 1)) - r;
+				}
+
+				square++;
+				if (sqrt((random.x * random.x) + (random.y * random.y)) <= (double)r) circle++;
+				pi = ((double)(4 * circle) / (double)(square));
+
+				#ifdef DEBUG
+					cout << "iterations " << i + 1 << " " << pi << endl;
+					// Sleep(50);
+					cin.get();
+				#endif
+			}			
+		}
+
+		void Pi_approximation(int iterations, int r)
+		{
+			double square = 0;
+			double circle = 0;
+			double pi = 0;
+
+			// void(*ptr)(int,double) = &Coding_Problems::Problem_14::Main_thing(1,2);
+			// void (*ptr)(int,double) = Main_thing;
+			// ptr(1, 2);
+
+			// void (Coding_Problems::Problem_14::*ptr)(int,int) = &Coding_Problems::Problem_14::Main_thing;
+
+			// pierwszy pomys³
+			/*
+			auto f = [&square, &circle, &pi](int number_of_iterations, int r)
+			{
+				for (int i = 0; i < number_of_iterations; i++)
+				{					
+					Point_int random;
+					{
+						random.x = (rand() % (2 * r + 1)) - r;
+						random.y = (rand() % (2 * r + 1)) - r;
+					}
+
+					square++;
+					if (sqrt((random.x * random.x) + (random.y * random.y)) <= (double)r) circle++;
+					pi = ((double)(4 * circle) / (double)(square));
+
+					#ifdef DEBUG
+						cout << "iterations " << i + 1 << " " << pi << endl;
+						// Sleep(50);
+						cin.get();
+					#endif
+				}
+			};
+			*/
+			
+			// drugi pomys³
+			/*
+			int fractions = 800;
+			fractions = 300;
+			
+			auto f = [&square, &circle, &pi, fractions](int number_of_iterations, double r)
+			{
+				double distance = 0;
+				for (int i = 0; i < number_of_iterations; i++)
+				{
+					Point_double random; // < 0, 1 >
+					{
+						random.x = ((double)(rand() % fractions) / (double)fractions); LOG("x: " << random.x);
+						random.y = ((double)(rand() % fractions) / (double)fractions); LOG("y: " << random.y);
+					}
+
+					square++;
+					distance = sqrt((random.x * random.x) + (random.y * random.y));
+					if (distance <= r) circle++;
+										
+					pi = (circle / square) * 4;
+
+					#ifdef DEBUG
+						cout << "iterations " << i + 1 << " " << pi << endl;
+						Sleep(50);
+						//cin.get();
+					#endif
+				}
+			};	
+
+			thread t(f, iterations, 1);
+			t.join();
+			*/
+
+			// strzelanie pixelami jak na obrazku
+			{
+				int general = 356;				
+				int width = general, height = general;
+
+				int local_r = general;
+				double length;
+				for (int i = 0; i < iterations; i++)
+				{
+					Point_int point = Random_point_in_bounds(width, height);
+					length = Length(point);
+
+					square++;
+					if (length <= (double)general) circle++;
+
+					pi = (circle / square) * 4;
+
+					#ifdef DEBUG
+						cout << "iterations " << i + 1 << " " << pi << endl;
+						Sleep(50);
+						//cin.get();
+					#endif
+				}
+			}
+
+
+			cout << "Funkcja skonczona" << endl;	
+			cout << "ile w kwadrat: " << square << endl;
+			cout << "ile w kolko: " << circle << endl;
+
+			cout << endl << "Pi: " << pi << endl;
+		}
+	};
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ////////////////////////////////////////////

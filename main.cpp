@@ -23,27 +23,23 @@ std::ostream& operator<<(std::ostream& stream, const Array_Dynamic<T>& obj)
 
 using namespace std;
 
-#ifdef DEBUG
-#define LOG(x) cout << x << endl;
-#define OPERATIONS
-#else
-#define LOG(x)
-#endif
-
 int main()
 {
-#ifdef OPERATIONS
-	// cout << "siema" << endl;
-	// cout << "nowy push" << endl;
+	// Mo¿e to pole name do klas, ¿eby automatycznie wyœwietla³o nazwê
+	// ale jeœli u¿. nie poda nazwy to te¿ jest giet
+
+	// Hello World
+	{
+		cout << "Hello world!" << endl;
+
+#ifdef DEBUG
+		cout << "Debug Mode on" << endl;
 #endif
+		cout << endl;
 
-	cout << "Hello world!" << endl << endl;
-	srand((unsigned int)time(NULL));
+		srand((unsigned int)time(NULL));
+	}
 	Time_Scope time("main", 3, 0);
-
-	// to jest easy
-
-	// jebaÄ‡ smoka skurwysyna
 
 	// {} do chowania tego co nie potrzebne na teraz
 	{
@@ -171,7 +167,7 @@ int main()
 		{
 			przykladowy = new List_Multivalue<string, int>;
 			for (int i = 0; i < 100; i++) przykladowy->Add_Back_Constructor("czesc", random, 26);
-			delete przykladowy; // w destruktorze jï¿½ usuwane wszystkie linked objecty
+			delete przykladowy; // w destruktorze j¹ usuwane wszystkie linked objecty
 		}
 
 		*/
@@ -309,7 +305,7 @@ int main()
 		cout << "after sort" << endl;
 		dy.Show_All();
 		*/
-		// Word Cross - teraz bez ciï¿½gï¿½ej alokacji i dealokacji
+		// Word Cross - teraz bez ci¹g³ej alokacji i dealokacji
 		/*
 		Word_Cross w;
 		Matrix<char> result;
@@ -330,11 +326,11 @@ int main()
 		}
 
 
-	
+
 		test.Get_values_from_raw_matrix(tab, 10, 5);
 		test.Show();
 
-	
+
 		test.Transposition();
 		test.Show();
 		*/
@@ -354,16 +350,16 @@ int main()
 		// Array_Dynamic random no repeate with guarantiee of some values
 		/*
 		Array_Dynamic<int> obj;
-		int tab[] = { 1,2,3,4,5,6 };	
+		int tab[] = { 1,2,3,4,5,6 };
 
 		obj.Make_Random_Array_No_Repeat_with_this_values_included(tab, 6, 10, 50);
 		cout << obj << endl;
 		obj.Sort();
 		cout << obj << endl;
 		*/
-		// Dziaï¿½ajï¿½ce Sudoku
+		// Dzia³aj¹ce Sudoku
 		/*
-		Sudoku obj;	
+		Sudoku obj;
 
 		//obj.Make_Sudoku();
 		//obj.Save_Matrix_to_File("matrix.txt");
@@ -376,7 +372,7 @@ int main()
 			system("cls");
 		}
 		*/
-		// sprawdzanie parsowania dla Stringa - testowanie limitï¿½w 
+		// sprawdzanie parsowania dla Stringa - testowanie limitów 
 		/*
 		Random_Value<String> s;
 		String range = "-12345";
@@ -393,7 +389,7 @@ int main()
 
 				if (!result.Try_Parse_to_Int() && result[0] == '-' && only_at_beginning)
 				{
-					cout << result << endl;	
+					cout << result << endl;
 					cout << counter << endl;
 					breaker = false;
 					break;
@@ -403,10 +399,10 @@ int main()
 		}
 		*/
 		// Bool_tab //
-		// 16 bitï¿½w do dyspozycji	
+		// 16 bitów do dyspozycji	
 		/*
 		unsigned short int t = 1;
-		t <<= 15; 
+		t <<= 15;
 		cout << t << endl;
 		*/
 		// Bool_tab test --- success
@@ -421,7 +417,7 @@ int main()
 		a.Show();
 
 		a(9, false);
-		a.Show();	
+		a.Show();
 
 		a(1, false);
 		a.Show();
@@ -439,7 +435,7 @@ int main()
 		*/
 		// Bool tab 2D test --- success
 		/*
-		Bool_tab_2D<5,5> b;	
+		Bool_tab_2D<5,5> b;
 
 		cout << endl;
 		b(1, 1, true);
@@ -448,147 +444,219 @@ int main()
 		b(0, 2, true);
 		b(4, 4, true);
 		*/
-	}
-
-	// String 	  // to z wycinaniec jakiegoï¿½ patternu i usuwaniem konkretnych liter
-	/*for (int i = 0; i < 10000000000000; i++)
-	{
-		String tab = "Test";
-	}*/
-	// Varaible Limist // Bit Operations
-	/*
-	int j;
-	j = 1;
-
-	for (int i = 0; i < 31; i++)
-	{
-		cout << i  << " proba: ";
-		cout << j << endl;
-		j <<= 1;
-	}
-
-	cout << "przed negacja " << j << endl;
-	j = ~j;
-	cout << "po negacji " << j << endl;
-	*/
-	// Smart_Pointers
-	/*
-	cout << "poczatek duzego" << endl;
-	{
-		Shared_ptr<Time_Scope> first = new Time_Scope("duzy");
+		// String 	  // to z wycinaniec jakiegoœ patternu i usuwaniem konkretnych liter
+		/*for (int i = 0; i < 10000000000000; i++)
 		{
-			cout << "poczatek malego" << endl;
-			Unique_ptr<Time_Scope> ptr = new Time_Scope("maly");
+			String tab = "Test";
+		}*/
+		// Varaible Limist // Bit Operations
+		/*
+		int j;
+		j = 1;
 
-			Shared_ptr<Time_Scope> second = first;
+		for (int i = 0; i < 31; i++)
+		{
+			cout << i  << " proba: ";
+			cout << j << endl;
+			j <<= 1;
 		}
-		cout << "koniec malego" << endl;
+
+		cout << "przed negacja " << j << endl;
+		j = ~j;
+		cout << "po negacji " << j << endl;
+		*/
+		// Smart_Pointers
+		/*
+		cout << "poczatek duzego" << endl;
+		{
+			Shared_ptr<Time_Scope> first = new Time_Scope("duzy");
+			{
+				cout << "poczatek malego" << endl;
+				Unique_ptr<Time_Scope> ptr = new Time_Scope("maly");
+
+				Shared_ptr<Time_Scope> second = first;
+			}
+			cout << "koniec malego" << endl;
+		}
+		cout << "koniec duzego" << endl;
+		*/
+		// Zmiana z Stringa na liczê binarn¹
+		/*
+		Number_Bases obj;
+
+		String s =    "10000000000000000000000000000000";
+		String u =    "10000000000000000000000000000000";
+		String u_biggest = "11111111111111111111111111111111";
+		String u_ = "01111111111111111111111111111111";
+
+		String sa =   "01111111111111111111111111111111";
+		String saa =  "11111111111111111111111111111111";
+		String saaa = "1111";
+
+		cout << endl << s << endl;
+		cout << "main signed - " << obj.Parse_to_Int_from_Binary(s) << endl;
+
+		cout << endl << saaa << endl;
+		cout << "main signed - " << obj.Parse_to_Int_from_Binary(saaa) << endl;
+
+		cout << endl << s << endl;
+		cout << "main signed - " << obj.Parse_to_Int_from_Binary(s) << endl;
+
+		cout << endl << sa << endl;
+		cout << "main signed - " << obj.Parse_to_Int_from_Binary(sa) << endl;
+
+		cout << endl << saa << endl;
+		cout << "main signed - " << obj.Parse_to_Int_from_Binary(saa) << endl;
+
+
+		cout << endl << endl;
+
+
+
+
+		cout << endl << u << endl;
+		cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u) << endl;
+
+		cout << endl << u_ << endl;
+		cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u_) << endl;
+
+
+		cout << endl;
+		cout << "biggest" << endl;
+		cout << u_biggest << endl;
+		cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u_biggest) << endl;
+		*/
+		// Test Matrix do uk³adu wspó³rzenych
+/*
+Matrix<int> obj(25, 25);
+obj.Initiate_value(0);
+obj.Put_This_value_in_random_places(1, 2);
+//obj.Show();
+obj.Show_nothing_if_zero();
+//obj.Show();
+*/
+// Ró¿nicze w zapisie liczb w pamiêci ---> wy³uskowanie z ró¿nych pointerów --- Ilostracja ró¿nych prymitywnych typów danych
+/*
+int i = 24;
+void* pointer = &i;
+
+cout << "Value casting" << endl;
+cout << "int:        " << ((int)i) << endl;
+cout << "long long:  " << ((long long)i) << endl;
+cout << "char:       " << ((char)i) << endl;
+cout << "float:      " << ((float)i) << endl;
+cout << "double:     " << ((double)i) << endl;
+
+cout << endl << "Pointer casting" << endl;
+cout << "int:        " << *((int*)pointer) << endl;
+cout << "long long:  " << *((long long*)pointer) << endl;
+cout << "char:       " << *((char*)pointer) << endl;
+cout << "float:      " << *((float*)pointer) << endl;
+cout << "double:     " << *((double*)pointer) << endl;
+*/
+// Password Generetor
+/*
+String s;
+
+while(true)
+{
+	s = s.Password_Generetor_basic_set(10);
+	cout << s << endl;
+	cin.get();
+}
+*/
+
+// --- ZAJEBISTA REKURENCJA ---
+// Permutacje z powtórzeniami
+/*
+Interesting_Recursion inte;
+
+int size = 10;
+int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
+int window = 5;
+
+cout << "set " << endl;
+for (int i = 0; i < size; i++) cout << tab[i] << " ";
+
+inte.HUB_Permutations(tab, size, window);
+inte.basic_call_no_repeat(tab, size, window);
+*/
+// ODPOWIED NA PYTANIE WSZECHCZASÓW --- jakie kombinacje podanych liczb sumuj¹ siê do okreœlonej wartoœci
+/*
+int size = 10;
+int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
+int sum = 12;
+
+Interesting_Recursion i;
+i.basic_call_no_repeat_sum(tab, size, sum);
+i.basic_call_no_repeat_showing_sum(tab, size);
+*/
+
+// Move Semantisc
+/*
+{
+	{
+		Entity_Bad_Allocation test("Wojtek");
+		test.Show();
 	}
-	cout << "koniec duzego" << endl;
-	*/
-	// Zmiana z Stringa na liczï¿½ binarnï¿½
-	/*
-	Number_Bases obj;
-
-	String s =    "10000000000000000000000000000000";
-	String u =    "10000000000000000000000000000000";
-	String u_biggest = "11111111111111111111111111111111";
-	String u_ = "01111111111111111111111111111111";
-
-	String sa =   "01111111111111111111111111111111";
-	String saa =  "11111111111111111111111111111111";
-	String saaa = "1111";
-
-	cout << endl << s << endl;
-	cout << "main signed - " << obj.Parse_to_Int_from_Binary(s) << endl;
-
-	cout << endl << saaa << endl;
-	cout << "main signed - " << obj.Parse_to_Int_from_Binary(saaa) << endl;
-
-	cout << endl << s << endl;
-	cout << "main signed - " << obj.Parse_to_Int_from_Binary(s) << endl;
-
-	cout << endl << sa << endl;
-	cout << "main signed - " << obj.Parse_to_Int_from_Binary(sa) << endl;
-
-	cout << endl << saa << endl;
-	cout << "main signed - " << obj.Parse_to_Int_from_Binary(saa) << endl;
-
-
 	cout << endl << endl;
+	{
+		Entity_with_Move test("Wojtek");
+		test.Show();
+	}
+}
+
+
+{
+	cout << endl << endl << "##########################" << endl;
+	cout << "##########################" << endl;
+	cout << "##########################" << endl << endl;
+	String wojtek("Wojtek");
+
+	{
+		Entity_Bad_Allocation test(wojtek);
+		test.Show();
+	}
+	cout << endl << endl;
+	{
+		// Entity_with_Move test(wojtek);
+		// test.Show();
+	}
+}
+*/
+	}
+
+	// Coding Problems
+	{
+		// ruppysuppy   Daily - Coding - Problem - Solutions
+		{
+			// Problem 9 - biggest non-adjacent sum
+			/*
+			Coding_Problems::Problem_9 p;
+
+			Array_Optimization<int> opt;
+			int size = 0;
+			int* tab = opt.From_txt_to_array("input_1.txt", size);
+
+			p.biggest_non_adjacent_sum(tab, size);
+			*/
+
+			// Problem 10 - very simple job scheduler
+			/*
+			Coding_Problems::Problem_10 p;
+			p.Job_Scheduler([]() -> void {cout << "job" << endl; }, 1000);
+			*/
+
+			// Problem 14 - Monte Carlo - pi approximation
+			/*
+			Coding_Problems::Problem_14 p;
+			p.Pi_approximation(10000000, 1);
+			*/
+		}
+	}
 
 
 
-
-	cout << endl << u << endl;
-	cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u) << endl;
-
-	cout << endl << u_ << endl;
-	cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u_) << endl;
-
-
-	cout << endl;
-	cout << "biggest" << endl;
-	cout << u_biggest << endl;
-	cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u_biggest) << endl;
-	*/
-	// Test Matrix do ukï¿½adu wspï¿½rzenych
-	/*
-	Matrix<int> obj(25, 25);
-	obj.Initiate_value(0);
-	obj.Put_This_value_in_random_places(1, 2);
-	//obj.Show();
-	obj.Show_nothing_if_zero();
-	//obj.Show();
-	*/
-	// Rï¿½nicze w zapisie liczb w pamiï¿½ci ---> wyï¿½uskowanie z rï¿½nych pointerï¿½w --- Ilostracja rï¿½nych prymitywnych typï¿½w danych
-	/*
-	int i = 24;
-	void* pointer = &i;
-
-	cout << "Value casting" << endl;
-	cout << "int:        " << ((int)i) << endl;
-	cout << "long long:  " << ((long long)i) << endl;
-	cout << "char:       " << ((char)i) << endl;
-	cout << "float:      " << ((float)i) << endl;
-	cout << "double:     " << ((double)i) << endl;
-
-	cout << endl << "Pointer casting" << endl;
-	cout << "int:        " << *((int*)pointer) << endl;
-	cout << "long long:  " << *((long long*)pointer) << endl;
-	cout << "char:       " << *((char*)pointer) << endl;
-	cout << "float:      " << *((float*)pointer) << endl;
-	cout << "double:     " << *((double*)pointer) << endl;
-	*/
-
-
-	// Moï¿½e to pole name do klas, ï¿½eby automatycznie wyï¿½wietlaï¿½o nazwï¿½
-	// ale jeï¿½li uï¿½. nie poda nazwy to teï¿½ jest giet	
-
-	
-	// Permutacje z powtï¿½rzeniami
-	/*
-	Interesting_Operations inte;
-
-	int size = 10;
-	int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;	
-	int window = 3;
-
-	inte.Permutations_by_Recursion_Hub(tab, size, window);
-	*/
-
-	// to samo ale na przykï¿½ad z moï¿½liwoï¿½ciï¿½ zï¿½apania kolejnoï¿½ci
-	// zamiast tylko 1, niech kaï¿½dy kolejny daje o jeden wiï¿½kszy niï¿½ ostatni najwiï¿½kszy w tablicy (bo caï¿½a reszta to 0)
-	// pï¿½niej moï¿½na odtworzyï¿½ kolejnoï¿½ï¿½ ---> znaleï¿½ï¿½ najwiï¿½kszy na liï¿½cie i wiesz, ï¿½e tyle ich bï¿½dzie, znajdujesz po koleji pozycje od 1 do tego maxa
-	// niech iteruje w kï¿½ko po pï¿½tli puki nie dojdzie do ostatniego
-
-	int size = 1000;
-	int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
-	int window = 5;
-
-	/*Interesting_Operations i;
-	i.basic_call_no_repeat_sum();
-	i.basic_call_no_repeat_showing_sum();*/
 
 	return 0;
 }
