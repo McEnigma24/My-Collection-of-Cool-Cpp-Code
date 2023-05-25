@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,12 +10,21 @@
 #include <cmath>
 #include <math.h>
 #include <cstdio>
-#include <vector>
 #include <memory>
 #include "windows.h"
 #include <thread>
 
-using namespace  std;
+#include <array>
+#include <vector>
+#include <list>
+
+#include <map>
+//#include <hash_map>
+#include <unordered_map>
+
+//using namespace  std;
+
+using std::cout; using std::string; using std::endl; using std::fstream; using std::ofstream; using std::ifstream; using std::list; using std::unique_ptr; using std::shared_ptr; using std::weak_ptr;
 
 //                                                                                MO¯E DOROBIÆ ¯EBY KA¯DA KLASA MIA£A POLE name, i podczas wyœwietlania bêdzie wyœwietla³a to
 //																				  ¿eby nie trzeba by³o pisaæ za ka¿dym razem siur
@@ -23,6 +33,7 @@ using namespace  std;
 
 // CLOCKS_PER_SEC zosta³ manualnie zdefiniowany
 #define MY_CLOCKS_PER_SEC 1000
+#define endl "\n"
 // Declarations to not necessarily use orderkc
 template<typename T> class Random_Value;
 template <typename T> class Matrix;
@@ -51,7 +62,6 @@ class Interesting_Recursion;
 #else
 #define LOG(x)
 #endif
-
 
 
 ////////////////////////////////////////////                     mo¿e ¿eby zrobiæ, ¿e Time_Scope jakoœ zwraca napis 0h - 4m - 20s gdzieœ do jakiejœ zmiennej String albo zapisuje to do pliku
@@ -252,6 +262,29 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const String& obj);
 };
 
+class JumpingString
+{
+	list<char*> tab_list;
+	list<int> size_list;
+
+public:
+
+	JumpingString();	
+	JumpingString(const char* input);
+	JumpingString(JumpingString& other);
+	JumpingString operator=(JumpingString& other);
+	JumpingString operator=(const char* input);
+	~JumpingString();
+	
+	int Count_in_Total();
+	char* Combine_to_One();
+	void Add(const char* input);
+	void Print();
+
+	void operator+=(const char* input);
+};
+
+
 // Test for Move Semantics //
 class Entity_Bad_Allocation
 {
@@ -292,6 +325,79 @@ public:
 	void Show()
 	{
 		cout << name << endl << endl;
+	}
+};
+
+
+// Testing SmartPointers
+class Testing_Smart
+{
+	int size;
+	std::unique_ptr<int[]> ptr;
+
+public:
+	Testing_Smart(int a)
+		:size(a), ptr(std::make_unique<int[]>(size)) {}
+
+	void Make_Matrix()
+	{
+		//unique_ptr<int[]> tmp = make_unique<int[]>(size);
+		
+		
+
+
+		//for (int i = 0; i < size; i++)
+			//ptr[i] = std::unique_ptr<int[]>(new int(size));
+	}
+
+};
+
+template<typename T>
+class Array_1d_like_2d
+{
+	int rows;	int columns;
+	T* tab;
+
+public:
+
+	Array_1d_like_2d(int r, int c)
+		:rows(r), columns(c)
+	{
+		tab = new T[rows * columns]{};
+	}
+	~Array_1d_like_2d()
+	{
+		delete[] tab;
+	}
+
+	void tabFillUp()
+	{
+		int c = 1;
+		for (int i = 0; i < rows * columns; i++) { tab[i] = c; c++; }
+	}
+
+	void printMatrix()
+	{
+		cout << endl;
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < columns; j++)
+			{
+				cout << tab[j + (i * rows)] << "	";
+			}
+			cout << endl;
+		}
+	}
+	void print()
+	{
+		cout << endl;
+		for (int i = 0; i < rows * columns; i++) cout << tab[i] << endl;
+	}
+
+
+	T& operator()(int i, int j)
+	{
+		return tab[j + (i * rows)];
 	}
 };
 
@@ -988,6 +1094,8 @@ class List
 		}
 	};
 
+	typedef list* iterator;
+
 	list* phead;
 	list* last;
 	int list_size;
@@ -1033,6 +1141,9 @@ public:
 	{
 		return list_size;
 	}
+
+	iterator begin() { return phead; }
+	iterator end() { return last; }
 
 	void Show()
 	{
@@ -2841,15 +2952,8 @@ public:
 class Interesting_Operations
 {
 public:
-	void Fractions_from_0_to_1(int number_of_fractions)
-	{
-		cout << ((double)(rand() % (number_of_fractions + 1)) / (double)(number_of_fractions + 1)) << endl;
-	}
-
-	void Fractions_from_0_to_user_number(int number_of_fractions, int user_number)
-	{
-		cout << ((double)(rand() % (number_of_fractions + 1)) / (double)(rand() % (user_number)+1)) << endl;
-	}
+	double Fractions_from_0_to_1();
+	double Fractions_from_0_to_user_number(double user_number);
 };
 
 
@@ -3081,7 +3185,7 @@ public:
 				#ifdef DEBUG
 					cout << "iterations " << i + 1 << " " << pi << endl;
 					// Sleep(50);
-					cin.get();
+					//cin.get();
 				#endif
 			}			
 		}

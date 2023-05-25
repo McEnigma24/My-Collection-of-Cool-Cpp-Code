@@ -1,4 +1,6 @@
-﻿#include "header.h"
+﻿#pragma once
+
+#include "header.h"
 #include <string>
 
 
@@ -14,6 +16,10 @@
 // potem dwie literki z każdą inną itd. albo jakis inny sposób
 // Jeszcze żeby działało na obietkach const to trzeba mieć też funkcje i operatory const - Cherno Arrow Operator
 
+	
+	
+
+
 	// String //
 		
 	String::String()
@@ -24,32 +30,32 @@
 	{
 		LOG("String Construktor - const char* input");
 		size = strlen(input);
-		tab = new char[size + 1];
+		tab = new char[size + 1];		
 
 		for (int i = 0; i < size; i++) tab[i] = input[i];
 		tab[size] = '\0';
 		for_execptions = 'e';
 	}
 	String::~String()
-		{
-#ifdef DEBUG
-		cout << "Deleting String ? ... ";
-#endif 
+	{
+		#ifdef DEBUG
+				cout << "Deleting String ? ... ";
+		#endif 
 
-			if (tab != nullptr)
-			{
-				delete[] tab;
-#ifdef DEBUG
-				cout << "yes" << endl;
-#endif 
-			}
-			else
-			{
-#ifdef DEBUG
-				cout << "no" << endl;
-#endif
-			}
+		if (tab != nullptr)
+		{
+			delete[] tab;
+			#ifdef DEBUG
+						cout << "yes" << endl;
+			#endif 
 		}
+		else
+		{
+			#ifdef DEBUG
+						cout << "no" << endl;
+			#endif
+		}
+	}
 	String::String(const String& other)
 			: size(other.size)
 		{
@@ -1482,12 +1488,6 @@
 	//	return tmp;
 	//}
 
-
-
-
-	
-
-
 	List_Multivalue<string, int>* Word_Cross::Search_For_Pattern_In_Matrix_My_Matrix(const string& pattern, Matrix<char>& tmp)
 	{
 		char** tab = tmp.Get_Tab();
@@ -1595,7 +1595,6 @@
 
 		return kierunek_i_indexy;
 	}
-
 	List_Multivalue<string, int>* Word_Cross::All_cases_present_My_Matrix(const string& pattern, Matrix<char>& obj, const unsigned int& size)
 	{
 		List_Multivalue<string, int>* result = nullptr;
@@ -2409,8 +2408,7 @@
 
 
 
-
-// Interesting Operations //
+// Interesting Recursion //
 
 	int Interesting_Recursion::count_ones(int*& tab, int& size)
 	{
@@ -2649,7 +2647,7 @@
 		int window = 1;
 		while (window != size)
 		{
-			string path = "_permutations/show_sum_to_all/permutations_no_repeat_" + to_string(window) +".txt";
+			string path = "_permutations/show_sum_to_all/permutations_no_repeat_" + std::to_string(window) +".txt";
 			ofstream FILE(path.c_str());
 
 			HUB_Permutations_no_repeat(tab, size, window, FILE,
@@ -2693,7 +2691,23 @@
 		HUB_Permutations(tab, size, how_many_number_in_group);		
 	}
 
-// ~Permutations //
+// ~Interesting Recursion //
+
+
+
+// Interesting Operations //
+
+	double Interesting_Operations::Fractions_from_0_to_1()
+	{
+		return ((double)(rand() % (10000 + 1)) / (double)(10000));
+	}
+	double Interesting_Operations::Fractions_from_0_to_user_number(double user_number)
+	{
+		return Fractions_from_0_to_1() * user_number;
+	}
+
+// ~Interesting Operations //
+
 
 
 
@@ -2725,7 +2739,7 @@
 			Time clock;
 			double time = 0;
 
-			plik.open(name + ".txt", ios::out);
+			plik.open(name + ".txt", std::ios::out);
 			plik << "Bubble sort" << endl;
 
 			// jeszcze nie uwzględniłem how_many_repetitions_on_each

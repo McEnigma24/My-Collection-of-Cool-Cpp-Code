@@ -23,26 +23,160 @@ std::ostream& operator<<(std::ostream& stream, const Array_Dynamic<T>& obj)
 
 using namespace std;
 
+# define PI          3.141592653589793238462643383279502884
+#define multiply( f1, f2 ) ( f1 * f2 )
+
+#define getrandom(min, max) \
+    ((rand()%(int)(((max) + 1)-(min)))+ (min))
+
+#define MAIN int main() \
+{\
+	cout<<"dziala"<<endl;\
+	return 0;\
+}
+
+typedef list<string> string_l;
+
+template<class T, size_t I>
+void printArray(array<T, I> a)
+{
+	for (auto& i : a)
+	{
+		i.Print();
+		cout << '\n';
+	}
+}
+
+class VectorOperations
+{
+public:
+	void print(vector<int>& a)
+	{
+		for (auto& aa : a) cout << aa << ' ';
+		cout << endl << endl;
+	}
+	void print(vector<vector<int>>& a)
+	{
+		for (auto& biga : a)
+		{
+			for (auto& smalla : biga)
+			{
+				cout << smalla << ' ';
+			}
+			cout << endl;
+		}
+
+		cout << endl << endl;
+	}
+	void print(vector<vector<vector<int>>>& a)
+	{
+		int level = 0;
+		for (auto& biga : a)
+		{
+			cout << "level " << level << endl; level++;
+			for (auto& mida : biga)
+			{
+				for (auto& smalla : mida)
+				{
+					cout << smalla << ' ';
+				}
+				cout << endl;
+			}
+
+			cout << endl;
+		}
+
+		cout << endl << endl;
+	}
+
+};
+
+// testing unique pointer as member
+class UniqueTest
+{
+	unique_ptr<int[]> m_a;
+	int& m_b;
+	int m_c;
+
+public:
+	UniqueTest(int& bb, int cc)
+		:m_b(bb), m_c(cc)
+	{
+		m_a = make_unique<int[]>(10);
+		for (int i = 0; i < 10; i++) m_a[i] = i + 1;
+	}
+
+	void Print()
+	{
+		cout << "unique ptr" << endl;
+		for (int i = 0; i < 10; i++) cout << m_a[i] << endl;
+
+		cout << "referenced b: " << m_b << "	zmieniæ wartosc zmiennej i zobaczyc jeszcze raz na wartosci" << endl;
+		cout << "           c: " << m_c << endl;
+	}
+};
+
+//MAIN
 int main()
 {
-	// Mo¿e to pole name do klas, ¿eby automatycznie wyœwietla³o nazwê
-	// ale jeœli u¿. nie poda nazwy to te¿ jest giet
+	string_l lista;
+	lista.emplace_back("typedef in use"); for (auto& l : lista) cout << l << endl;
 
 	// Hello World
 	{
 		cout << "Hello world!" << endl;
 
-#ifdef DEBUG
-		cout << "Debug Mode on" << endl;
-#endif
+		#ifdef DEBUG
+				cout << "Debug Mode on" << endl;
+		#endif
 		cout << endl;
 
 		srand((unsigned int)time(NULL));
 	}
-	Time_Scope time("main", 3, 0);
+	Time_Scope time("main", 3, 0);	
 
+	// Mo¿e to pole name do klas, ¿eby automatycznie wyœwietla³o nazwê
+	// ale jeœli u¿. nie poda nazwy to te¿ jest giet
+	
+	// inicjalizacja
+	int* t = new int[10]{};
+
+	unique_ptr<int> unique = make_unique<int>(10); //cout << unique << " " << *unique << endl;
+	unique_ptr<int[]> unique_tab = make_unique<int[]>(10); //cout << unique_tab << endl;  for (int i = 0; i < 10; i++) unique_tab[i] = 0; for (int i = 0; i < 10; i++) cout << unique_tab[i] << endl;
+
+	int size = 5;		// rozmiar , wartoœæ jak¹ inicjujemy
+	vector<double> simple (size, 0);							// vector 1d 
+	vector<vector<double>> matrix (size, vector<double>(size)); // vector 2d 
+	
 	// {} do chowania tego co nie potrzebne na teraz
 	{
+		// ruppysuppy   Daily - Coding - Problem - Solutions
+		{
+			{
+				// Problem 9 - biggest non-adjacent sum
+				/*
+				Coding_Problems::Problem_9 p;
+
+				Array_Optimization<int> opt;
+				int size = 0;
+				int* tab = opt.From_txt_to_array("input_1.txt", size);
+
+				p.biggest_non_adjacent_sum(tab, size);
+				*/
+
+				// Problem 10 - very simple job scheduler
+				/*
+				Coding_Problems::Problem_10 p;
+				p.Job_Scheduler([]() -> void {cout << "job" << endl; }, 1000);
+				*/
+
+				// Problem 14 - Monte Carlo - pi approximation
+				/*
+				Coding_Problems::Problem_14 p;
+				p.Pi_approximation(10000000, 1);
+				*/
+			}
+		}
 		//Stack
 		/*Stack<string> test;
 
@@ -527,136 +661,402 @@ int main()
 		cout << "main unsigned - " << obj.Parse_to_Un_Int_from_Binary(u_biggest) << endl;
 		*/
 		// Test Matrix do uk³adu wspó³rzenych
-/*
-Matrix<int> obj(25, 25);
-obj.Initiate_value(0);
-obj.Put_This_value_in_random_places(1, 2);
-//obj.Show();
-obj.Show_nothing_if_zero();
-//obj.Show();
-*/
-// Ró¿nicze w zapisie liczb w pamiêci ---> wy³uskowanie z ró¿nych pointerów --- Ilostracja ró¿nych prymitywnych typów danych
-/*
-int i = 24;
-void* pointer = &i;
+		/*
+		Matrix<int> obj(25, 25);
+		obj.Initiate_value(0);
+		obj.Put_This_value_in_random_places(1, 2);
+		//obj.Show();
+		obj.Show_nothing_if_zero();
+		//obj.Show();
+		*/
+		// Ró¿nicze w zapisie liczb w pamiêci ---> wy³uskowanie z ró¿nych pointerów --- Ilostracja ró¿nych prymitywnych typów danych
+		/*
+		int i = 24;
+		void* pointer = &i;
 
-cout << "Value casting" << endl;
-cout << "int:        " << ((int)i) << endl;
-cout << "long long:  " << ((long long)i) << endl;
-cout << "char:       " << ((char)i) << endl;
-cout << "float:      " << ((float)i) << endl;
-cout << "double:     " << ((double)i) << endl;
+		cout << "Value casting" << endl;
+		cout << "int:        " << ((int)i) << endl;
+		cout << "long long:  " << ((long long)i) << endl;
+		cout << "char:       " << ((char)i) << endl;
+		cout << "float:      " << ((float)i) << endl;
+		cout << "double:     " << ((double)i) << endl;
 
-cout << endl << "Pointer casting" << endl;
-cout << "int:        " << *((int*)pointer) << endl;
-cout << "long long:  " << *((long long*)pointer) << endl;
-cout << "char:       " << *((char*)pointer) << endl;
-cout << "float:      " << *((float*)pointer) << endl;
-cout << "double:     " << *((double*)pointer) << endl;
-*/
-// Password Generetor
-/*
-String s;
+		cout << endl << "Pointer casting" << endl;
+		cout << "int:        " << *((int*)pointer) << endl;
+		cout << "long long:  " << *((long long*)pointer) << endl;
+		cout << "char:       " << *((char*)pointer) << endl;
+		cout << "float:      " << *((float*)pointer) << endl;
+		cout << "double:     " << *((double*)pointer) << endl;
+		*/
+		// Password Generetor
+		/*
+		String s;
 
-while(true)
-{
-	s = s.Password_Generetor_basic_set(10);
-	cout << s << endl;
-	cin.get();
-}
-*/
-
-// --- ZAJEBISTA REKURENCJA ---
-// Permutacje z powtórzeniami
-/*
-Interesting_Recursion inte;
-
-int size = 10;
-int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
-int window = 5;
-
-cout << "set " << endl;
-for (int i = 0; i < size; i++) cout << tab[i] << " ";
-
-inte.HUB_Permutations(tab, size, window);
-inte.basic_call_no_repeat(tab, size, window);
-*/
-// ODPOWIED NA PYTANIE WSZECHCZASÓW --- jakie kombinacje podanych liczb sumuj¹ siê do okreœlonej wartoœci
-/*
-int size = 10;
-int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
-int sum = 12;
-
-Interesting_Recursion i;
-i.basic_call_no_repeat_sum(tab, size, sum);
-i.basic_call_no_repeat_showing_sum(tab, size);
-*/
-
-// Move Semantisc
-/*
-{
-	{
-		Entity_Bad_Allocation test("Wojtek");
-		test.Show();
-	}
-	cout << endl << endl;
-	{
-		Entity_with_Move test("Wojtek");
-		test.Show();
-	}
-}
-
-
-{
-	cout << endl << endl << "##########################" << endl;
-	cout << "##########################" << endl;
-	cout << "##########################" << endl << endl;
-	String wojtek("Wojtek");
-
-	{
-		Entity_Bad_Allocation test(wojtek);
-		test.Show();
-	}
-	cout << endl << endl;
-	{
-		// Entity_with_Move test(wojtek);
-		// test.Show();
-	}
-}
-*/
-	}
-
-	// Coding Problems
-	{
-		// ruppysuppy   Daily - Coding - Problem - Solutions
+		while(true)
 		{
-			// Problem 9 - biggest non-adjacent sum
-			/*
-			Coding_Problems::Problem_9 p;
-
-			Array_Optimization<int> opt;
-			int size = 0;
-			int* tab = opt.From_txt_to_array("input_1.txt", size);
-
-			p.biggest_non_adjacent_sum(tab, size);
-			*/
-
-			// Problem 10 - very simple job scheduler
-			/*
-			Coding_Problems::Problem_10 p;
-			p.Job_Scheduler([]() -> void {cout << "job" << endl; }, 1000);
-			*/
-
-			// Problem 14 - Monte Carlo - pi approximation
-			/*
-			Coding_Problems::Problem_14 p;
-			p.Pi_approximation(10000000, 1);
-			*/
+			s = s.Password_Generetor_basic_set(10);
+			cout << s << endl;
+			cin.get();
 		}
+		*/
+		// Fractions 0 -> x
+		/*
+		Interesting_Operations o;
+		int how_many = 0;
+
+		double chosen = 100;
+		double tmp = o.Fractions_from_0_to_user_number(chosen);
+		while (tmp != chosen)
+		{
+			how_many++;
+			tmp = o.Fractions_from_0_to_user_number(chosen);
+			cout << tmp << endl;
+		}
+		cout << how_many << endl;
+		cout << tmp << endl;
+		*/
+
+		// --- ZAJEBISTA REKURENCJA ---
+		// Permutacje z powtórzeniami
+		/*
+		Interesting_Recursion inte;
+
+		int size = 10;
+		int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
+		int window = 5;
+
+		cout << "set " << endl;
+		for (int i = 0; i < size; i++) cout << tab[i] << " ";
+
+		inte.HUB_Permutations(tab, size, window);
+		inte.basic_call_no_repeat(tab, size, window);
+		*/
+		// ODPOWIED NA PYTANIE WSZECHCZASÓW --- jakie kombinacje podanych liczb sumuj¹ siê do okreœlonej wartoœci
+		/*
+		int size = 10;
+		int* tab = new int[size]; for (int i = 0; i < size; i++) tab[i] = i + 1;
+		int sum = 12;
+
+		Interesting_Recursion i;
+		i.basic_call_no_repeat_sum(tab, size, sum);
+		i.basic_call_no_repeat_showing_sum(tab, size);
+		*/
+
+		// Move Semantisc
+		/*
+		{
+			{
+				Entity_Bad_Allocation test("Wojtek");
+				test.Show();
+			}
+			cout << endl << endl;
+			{
+				Entity_with_Move test("Wojtek");
+				test.Show();
+			}
+		}
+
+
+		{
+			cout << endl << endl << "##########################" << endl;
+			cout << "##########################" << endl;
+			cout << "##########################" << endl << endl;
+			String wojtek("Wojtek");
+
+			{
+				Entity_Bad_Allocation test(wojtek);
+				test.Show();
+			}
+			cout << endl << endl;
+			{
+				// Entity_with_Move test(wojtek);
+				// test.Show();
+			}
+		}
+		*/
+		// Jumping String
+		/*
+		JumpingString s;
+
+		s.Add("ciekawe ");
+		s.Add("czy ");
+		s.Add("dobrze \n");
+		s.Add("zadziala");
+
+		s.Print();
+		cout << s.Count_in_Total() << endl;
+
+		JumpingString new_s = s;
+		new_s.Print();
+		cout << new_s.Count_in_Total() << endl;
+
+		JumpingString string;
+
+		{
+			string = new_s;
+			cout << "string: " << endl;
+			string.Print();
+			cout << string.Count_in_Total() << endl;
+		}
+		*/
+		// Checking Stack allocated obj
+		/*
+		int* Tab()
+		{
+			int tab[40]{};
+			return tab;
+		}
+
+
+		string* Str()
+		{
+			string test = "Wojtek";
+			return &test;
+		}
+
+		int* tab = nullptr;
+		{
+			tab = Tab();
+		}
+		string wojtek = "Wojtaz";
+
+		int taba[100]{};
+		int tabb[100]{};
+		int tabc[100]{};
+		int tabd[100]{};
+
+		//int* t = new int[10]{};
+
+		unique_ptr<int> unique = make_unique<int>(10); //cout << unique << " " << *unique << endl;
+		unique_ptr<int[]> unique_tab = make_unique<int[]>(10); //cout << unique_tab << endl;  for (int i = 0; i < 10; i++) unique_tab[i] = 0; for (int i = 0; i < 10; i++) cout << unique_tab[i] << endl;
+
+		tab[12] = 1;
+		for (int i = 0; i < 40; i++) cout << tab[i] << endl;
+
+
+		string* test = Str();
+		cout <<"->" << *test << "<-" << endl;
+		*/		
+		// Foreach array, vector
+		/*
+		string tab[] = {"wojtek", "tab"};
+
+		std::vector<string> v;
+		v.reserve(3);
+		v.emplace_back("wojtek");
+		v.emplace_back("tab");
+		v.emplace_back("mad scientist");
+
+		v[1] = "k";
+
+		for (auto& vec : v)
+			cout << vec << "\n";
+
+		for (const auto& vec : v)
+			cout << vec << "\n";
+
+		array<int, 10> ar{};
+
+		for (auto& a : ar)
+		{
+			a = 1;
+			cout << a << "\n";
+		}
+
+		cout << "other" << "\n\n";
+		for (const auto& a : ar)
+			cout << a << "\n";
+
+
+
+		String moj[] = {"moj", "string"};
+		for (String m : moj)
+			cout << m << "\n";
+
+		cout << "\n";
+
+		std::array<JumpingString, 3> jump_array;
+		jump_array[0] = "jump";
+		jump_array[1] = "jump";
+		jump_array[2] = "jump";
+
+		cout << "\nprint array" << endl;
+		printArray(jump_array);
+
+
+		JumpingString jump[] = {"inny", "test"};
+
+		for (auto j : jump)
+		{
+			j = "zmiana";
+			j.Print(); cout << "\n";
+		}
+
+		for (auto& j : jump)
+		{
+			j.Print(); cout << "\n";
+		}
+		*/
+		// Foreach list
+		/*
+			list<JumpingString> lista;
+			lista.emplace_back("clear");
+			lista.emplace_back("consisten");
+			lista.emplace_back("boundery");
+
+			for (JumpingString& l : lista)
+				l.Print(); cout << "\n";
+		*/
+		// Maps
+		/*
+		map<string, int> nazwy_numer;
+
+		nazwy_numer["test"] = 12;
+		nazwy_numer["t"] = 13;
+		nazwy_numer["te"] = 14;
+
+		for (auto& n : nazwy_numer)
+		{
+			cout << n.first;
+			cout <<" " << n.second << endl;
+		}
+
+		int a = nazwy_numer.at("t");
+		int b = nazwy_numer["testing"];
+
+		cout << nazwy_numer.at("t") << "\n";
+		cout << a << "\n";
+		cout << b << "\n";
+		*/
+		// Foreach on my List --- coœ trzeba dorobiæ, ¿eby dzia³a³o	
+		/*
+		List<int> test;
+		test.Add_Back(10);
+		test.Add_Back(20);
+		test.Add_Back(30);
+		test.Add_Back(40);
+
+		for (auto& i : test)
+			cout << i.value << "\n";
+		*/
+		// Frequency of use
+		/*
+		unordered_map<string, int> hash;
+		hash["a"] = 10;
+		hash["b"] = 11;
+		hash["c"] = 20;
+		hash["d"] = 30;
+
+
+		unordered_map<string, int>::iterator it = hash.find("a");
+		cout << (*it).second << endl;
+
+		for (auto& h : hash)
+		{
+			cout << h.first << " ";
+			cout << h.second << endl;
+		}
+		*/
+		// Matrix 2d, but actually 1d
+		/*
+		Array_1d_like_2d<double> arr(5,5);
+		arr.tabFillUp();
+
+		arr(0, 0) = 10;
+		//arr.print();
+		arr.printMatrix();
+		*/
+		// Vector 1d 2d 3d    
+		// ---> clear() kasuje wszystko nawet z zagnie¿dŸonych vectorów 2d i 3d 	  (bo to s¹ tylko obiekty, które aktywuj¹ swoje destruktory)
+		/*
+		typedef vector<int> vec1d;
+		typedef vector<vector<int>> vec2d;
+		typedef vector<vector<vector<int>>> vec3d;
+	
+		int vecsize = 10;
+		VectorOperations vop;
+		{
+			vec1d a(vecsize, 1);									//vop.print1d(a);
+			vec2d b(vecsize, vec1d(vecsize, 2));					//vop.print2d(b);
+			vec3d c(vecsize, vec2d(vecsize, vec1d(vecsize, 3)));	//vop.print3d(c);
+		}
+
+		// pointery
+		while(1)
+		{
+			vec1d* a = new vec1d(vecsize, 1);									//vop.print1d(a);
+			vec2d* b = new vec2d(vecsize, vec1d(vecsize, 2));					//vop.print2d(b);
+			vec3d* c = new vec3d(vecsize, vec2d(vecsize, vec1d(vecsize, 3)));	//vop.print3d(c);
+
+			//a->clear(); 
+			delete a;
+			//b->clear(); 
+			delete b;
+			//c->clear(); 
+			delete c;
+		}
+		*/
+		// Testing iterating through vector ---> resize vs reserve			reserver nie powoduje wyœwietlania pustych itemów, resize tak
+		/*
+		vector<int> vec;
+
+		vec.reserve(50);
+		vec.push_back(0);
+
+		int i = 0;
+		for (auto& v : vec)
+		{
+			vec.push_back(10);
+			cout << i << " "; i++;
+			cout << v << endl;
+
+		}
+		*/
+		// Bool switching 0 to 1, 1 to 0	---> ~ doesn't work to switch, ! does
+		/*
+		bool test = true;
+
+		int i = 10;
+		while (i-- > 0)
+		{
+			cout << i << " ";
+
+			test = !test;
+			cout << test << endl;
+		}
+		*/	
+		// Unique Test
+		/*
+		int b = 10;
+		int c = 10;
+	
+		while (1)
+			UniqueTest tmp(b, c);
+
+	
+		tmp.Print();
+
+		cout << endl;
+		cout << "incrementing" << endl;		b++; c++;
+		cout << endl;	
+	
+		tmp.Print();	
+		*/
 	}
 
+	cout << "";
 
 
 
+
+
+
+
+
+
+	
+
+	
+	
 	return 0;
 }
